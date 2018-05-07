@@ -14,3 +14,51 @@ Array.prototype.remove = obj => {
     }
   }
 }
+// 设置cookie
+window.setCookie = function (cname, cvalue) {
+  document.cookie = cname + '=' + cvalue + ';'
+}
+// 获取cookie
+window.getCookie = function (cname) {
+  var result = null
+  var myCookie = '' + document.cookie + ';'
+  var searchName = '' + cname + '='
+  var startOfCookie = myCookie.indexOf(searchName)
+  var endOfCookie
+  if (startOfCookie !== -1) {
+    startOfCookie += searchName.length
+    endOfCookie = myCookie.indexOf(';', startOfCookie)
+    result = (myCookie.substring(startOfCookie, endOfCookie))
+  }
+  return result
+}
+// 清除cookie
+window.clearCookie = function (name) {
+  window.setCookie(name, '')
+}
+// 取缓存value
+window.getLocalStorage = function (key) {
+  var value
+  try {
+    localStorage.setItem('TestKey', '123')
+    value = localStorage.getItem(key)
+  } catch (e) {
+    value = window.getCookie(key)
+  }
+  return value
+}
+// 设置缓存值
+window.setLocalStorage = function (key, value) {
+  try {
+    localStorage.setItem(key, value)
+  } catch (e) {
+    window.setCookie(key, value)
+  }
+}
+window.removeLocalStorage = function (key) {
+  try {
+    localStorage.removeItem(key)
+  } catch (e) {
+    window.clearCookie(key, '')
+  }
+}
