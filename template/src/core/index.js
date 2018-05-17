@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueI18n from 'vue-i18n' // 国际化
 import filters from '@/core/filters'
-// import Toast from 'topteam-toast'
-import Toast from '@/components/toast'
 import { config, enums, logMap } from '@/configs'
 import { isNullOrEmpty, PagingCriteria, getQueryString, setLanguage, trim, animate, goMainStationUrl, loadScript } from './utils'
 import { http, loghttp, qidahttp, commonhttp, setToken } from './apiInstances'
@@ -45,13 +43,11 @@ const goLogin = () => {
     return
   }
   // 如果存在returnurl，则不赋值，因为掉接口时是异步操作，可能会写登录界面的地址
-  if (!config.isDebug) {
-    let rurl = window.location.href
-    if (!window.getLocalStorage('returnUrl')) {
-      window.setLocalStorage('returnUrl', rurl)
-    }
-    window.location.href = goMainStationUrl()
+  let rurl = window.location.href
+  if (!window.getLocalStorage('returnUrl')) {
+    window.setLocalStorage('returnUrl', rurl)
   }
+  window.location.href = goMainStationUrl()
 }
 // 不能使用箭头函数，保留this关键字指向vue
 const sendBehaviorLog = function (key) {
@@ -110,7 +106,6 @@ const init = () => {
   Vue.use(Vuex)
   Vue.use(VueI18n)
   Vue.use(filters)
-  Vue.use(Toast)
   Vue.use(scroll)
   Vue.use(directives)
 

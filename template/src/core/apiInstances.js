@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { apiUrl, locales, config } from '@/configs/'
 import { goLogin } from './index'
+import router from '@/router'
 
 let excGet = (httpAxios) => {
   // 重置了GET方法，包装params
@@ -84,7 +85,11 @@ const res = {
       }
     }
     if (error.response.status === 401) {
-      goLogin()
+      if (config.isDebug) {
+        router.push({name: 'debugLogin'})
+      } else {
+        goLogin()
+      }
       // eslint-disable-next-line
       return Promise.reject(null)
     }
