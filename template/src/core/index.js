@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueI18n from 'vue-i18n' // 国际化
 import filters from '@/core/filters'
-import { config, enums, logMap } from '@/configs'
-import { isNullOrEmpty, PagingCriteria, getQueryString, setLanguage, trim, animate, goMainStationUrl, loadScript } from './utils'
+import { config, enums, logMap, locales } from '@/configs'
+import { isNullOrEmpty, PagingCriteria, getQueryString, trim, animate, goMainStationUrl, loadScript } from './utils'
 import { http, loghttp, qidahttp, commonhttp, setToken } from './apiInstances'
 import { CreateLog } from '@/services/main.service'
 import directives from './directives'
@@ -26,7 +26,24 @@ const setLanguage = type => {
   }
   i18n.locale = lang
 }
+const setCurrentLanguage = () => {
+  let type = window.getLocalStorage('lang') // 去拿缓存中的lang的值 0:跟随系统 1: 简体中文 2: 繁體中文 3: English
+  type = parseInt(type)
+  type = type > 3 ? 0 : type
+  if (!type) {
+    let lang = (window.browser && window.browser.language()) || 'ch'
+    if (lang.indexOf('eng') > -1 || lang.indexOf('en') === 0) {
+      type = 3
+    } else if (lang.indexOf('tw') > -1 || lang.indexOf('hk') > -1 ||
+      lang.indexOf('zhh') > -1 || lang.indexOf('cht') > -1) {
+      type = 2
+    } else {
+      type = 1
+    }
+  }
 
+  Vue.prototype.setLanguage(type)
+}
 // const getUserInfo = () => {
 //   GetUserInfo().then((data) => {
 //     for (let key in data) {
@@ -74,7 +91,10 @@ const sendBehaviorLog = function (key) {
 const init = () => {
   window.yxt = window.yxt || {}
   if (process.env.NODE_ENV === 'production') {
-    loadScript('https://media1.yunxuetang.cn/yxt/systemfiles/js/h5/tingyun-rum.js')
+    // loadScript('url')
+    console.log('加载产线外部依赖')
+  } else {
+    console.log('加载测试外部依赖')
   }
   Vue.use(Vuex)
   Vue.use(filters)
@@ -109,4 +129,4 @@ const init = () => {
   // getUserInfo()
 }
 
-export { http, loghttp, qidahttp, commonhttp, setToken, init, goLogin }
+export { http, loghttp, qidahttp, commonhttp, setToken, init, goLogin, i18n }

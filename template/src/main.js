@@ -7,8 +7,11 @@ import App from './App'
 {{#router}}
 import router from './router'
 {{/router}}
+import { init, i18n } from './core'
 
 Vue.config.productionTip = false
+
+init()
 
 /* eslint-disable no-new */
 new Vue({
@@ -20,6 +23,7 @@ new Vue({
   render: h => h(App)
   {{/if_eq}}
   {{#if_eq build "standalone"}}
+  i18n,
   components: { App },
   template: '<App/>'
   {{/if_eq}}
