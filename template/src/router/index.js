@@ -23,7 +23,7 @@ const route = [{
   name: 'course',
   component: resolve => require(['@/view/course.vue'], resolve),
   meta: {
-    title: '搜索',
+    title: '课程',
     vcode: vcodes.app_course,
     keepAlive: true
   }
@@ -32,7 +32,7 @@ const route = [{
   name: 'my',
   component: resolve => require(['@/view/my.vue'], resolve),
   meta: {
-    title: '搜索',
+    title: '我的',
     vcode: vcodes.bbs_search
   }
 }]

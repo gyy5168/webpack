@@ -5,27 +5,26 @@ import filters from '@/core/filters'
 import { config, enums, logMap } from '@/configs'
 import { isNullOrEmpty, PagingCriteria, getQueryString, setLanguage, trim, animate, goMainStationUrl, loadScript } from './utils'
 import { http, loghttp, qidahttp, commonhttp, setToken } from './apiInstances'
-import { CreateLog, GetWxJsconfig } from '@/services/main.service'
+import { CreateLog } from '@/services/main.service'
 import directives from './directives'
 
 require('./extend')
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+  locale: 'ch',
+  messages: locales
+})
 
-const setCurrentLanguage = () => {
-  let type = window.getLocalStorage('lang') // 去拿缓存中的lang的值 0:跟随系统 1: 简体中文 2: 繁體中文 3: English
-  type = parseInt(type)
-  type = type > 3 ? 0 : type
-  if (!type) {
-    let lang = (window.browser && window.browser.language()) || 'ch'
-    if (lang.indexOf('eng') > -1 || lang.indexOf('en') === 0) {
-      type = 3
-    } else if (lang.indexOf('tw') > -1 || lang.indexOf('hk') > -1 ||
-      lang.indexOf('zhh') > -1 || lang.indexOf('cht') > -1) {
-      type = 2
-    } else {
-      type = 1
-    }
+const setLanguage = type => {
+  let lang
+  if (type === 1) { // 简体中文
+    lang = 'ch'
+  } else if (type === 2) { // 繁体中文
+    lang = 'ha'
+  } else if (type === 3) { // 英文
+    lang = 'en'
   }
-  Vue.prototype.setLanguage(type)
+  i18n.locale = lang
 }
 
 // const getUserInfo = () => {
@@ -72,39 +71,12 @@ const sendBehaviorLog = function (key) {
   CreateLog(logData, 2)
 }
 
-const setWxConfig = () => {
-  let data = {
-    url: window.location.href.split('#')[0],
-    type: window.getLocalStorage('wxtype')
-  }
-  GetWxJsconfig(data).then(res => {
-    if (res.appId) {
-      window.wx.config({
-        debug: false,
-        appId: res.appId,
-        timestamp: res.timestamp,
-        nonceStr: res.noncestr,
-        signature: res.signature,
-        jsApiList: ['scanQRCode', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'onVoicePlayEnd', 'pauseVoice', 'stopVoice', 'uploadVoice', 'downloadVoice']
-      })
-      window.wx.ready(function () {
-        window.wx.onVoiceRecordEnd()
-        window.wx.onVoicePlayEnd()
-      })
-      window.wx.error(function (res) {
-        // alert(window.JSON.stringify(res))
-      })
-    }
-  })
-}
-
 const init = () => {
   window.yxt = window.yxt || {}
   if (process.env.NODE_ENV === 'production') {
     loadScript('https://media1.yunxuetang.cn/yxt/systemfiles/js/h5/tingyun-rum.js')
   }
   Vue.use(Vuex)
-  Vue.use(VueI18n)
   Vue.use(filters)
   Vue.use(scroll)
   Vue.use(directives)
@@ -135,9 +107,6 @@ const init = () => {
   }
   Vue.prototype.$userContent = {}
   // getUserInfo()
-  if (config.isWx) {
-    setWxConfig()
-  }
 }
 
 export { http, loghttp, qidahttp, commonhttp, setToken, init, goLogin }
