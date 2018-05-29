@@ -91,7 +91,7 @@ const sendBehaviorLog = function (key) {
 const init = () => {
   window.yxt = window.yxt || {}
   if (process.env.NODE_ENV === 'production') {
-    // loadScript('url')
+    console.log(loadScript)
     console.log('加载产线外部依赖')
   } else {
     console.log('加载测试外部依赖')

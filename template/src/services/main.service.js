@@ -8,5 +8,9 @@ export const CreateLog = (data, type) => {
 }
 // 获取当前用户信息
 export const GetUserInfo = () => {
+  return http.get('userinfo')
+}
+// 企大获取用户信息
+export const GetQidaUserInfo = () => {
   return qidahttp.get('userinfo')
 }
