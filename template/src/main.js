@@ -7,6 +7,7 @@ import App from './App'
 {{#router}}
 import router from './router'
 {{/router}}
+import store from './store'
 import { init, i18n } from './core'
 
 Vue.config.productionTip = false
@@ -24,6 +25,7 @@ new Vue({
   {{/if_eq}}
   {{#if_eq build "standalone"}}
   i18n,
+  store,
   components: { App },
   template: '<App/>'
   {{/if_eq}}
