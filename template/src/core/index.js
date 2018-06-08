@@ -98,7 +98,6 @@ const init = () => {
   }
   Vue.use(Vuex)
   Vue.use(filters)
-  Vue.use(scroll)
   Vue.use(directives)
 
   Vue.prototype.isNullOrEmpty = isNullOrEmpty
