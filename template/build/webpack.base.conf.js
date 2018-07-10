@@ -42,7 +42,8 @@ module.exports = {
     'yxt': 'yxt',
     'baidubce': 'baidubce',
     'humanize': 'humanize',
-    'yxtUpload': 'yxtUpload'
+    'yxtUpload': 'yxtUpload',
+    'cyberplayer': 'cyberplayer'
   },
   module: {
     rules: [
