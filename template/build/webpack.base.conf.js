@@ -38,6 +38,12 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  externals: {
+    'yxt': 'yxt',
+    'baidubce': 'baidubce',
+    'humanize': 'humanize',
+    'yxtUpload': 'yxtUpload'
+  },
   module: {
     rules: [
       {{#lint}}
