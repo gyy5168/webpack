@@ -114,12 +114,7 @@ const init = () => {
   setCurrentLanguage()
 
   let token
-  if (window.isApp) {
-    token = window.yxt.token || getQueryString('token')
-  }
-  if (!token) {
-    token = getQueryString('token') || window.getLocalStorage('token')
-  }
+  token = getQueryString('token') || window.getCookie('ELEARNING_00024') || window.getLocalStorage('token')
   if (token) {
     window.setLocalStorage('token', token)
     setToken(token)
